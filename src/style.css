@@ -1,0 +1,156 @@
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: royalblue;
+  text-decoration-line: none;
+}
+
+a:visited {
+  color: royalblue;
+}
+
+button {
+  font-family: inherit; 
+  font-size: inherit; 
+  padding: 5px 10px;
+  user-select: none;
+}
+
+button:focus {
+  outline: solid 1px royalblue;
+}
+
+textarea {
+  border: 1px solid #888;
+  border-radius: 5px;
+}
+
+textarea:focus {
+  border: 1px solid royalblue;
+  outline: none;
+}
+
+body, html {
+  margin: 0; 
+  padding: 0;
+  font-family: "Open Sans";
+  font-size: 16px; 
+}
+
+body {
+  display: grid; 
+  justify-content: center; 
+}
+
+#wrapper {
+  max-width: 700px; 
+  padding: 20px;
+  margin-top: 50px;
+  display: grid; 
+  justify-items: left;
+}
+
+#description {
+  margin: 0;
+}
+
+#instructions {
+  color: #777;
+  margin-top: 5px;
+  margin-bottom: 25px;
+  font-size: 0.95em;
+  list-style-type: square; 
+}
+
+#file-input {
+  opacity: 0; 
+  width: 0; 
+  height: 0; 
+  position: fixed;
+  left: 0; 
+  top: 0;
+}
+
+#editor-wrapper {
+  width: 100%; 
+  margin-top: 15px;
+}
+
+#editor {
+  font-size: inherit;
+  font-family: inherit;
+  padding: 10px;
+  margin-top: 5px;
+  width: 100%; 
+  height: 500px;
+}
+
+#editor-buttons {
+  margin-top: 5px;
+  display: grid; 
+  justify-items: left; 
+  grid-template-columns: auto auto 1fr auto;
+  grid-template-areas: "a b c d"; 
+  grid-column-gap: 10px;
+}
+
+
+#editor-buttons > button:nth-child(0n+3){
+  justify-self: right;
+  grid-area: d;
+}
+
+#history {
+  margin: 50px 0;
+}
+
+#history > div:first-child {
+  font-size: 1.2em;
+}
+
+#history > div:nth-child(0n+2) {
+  font-size: 0.9em;
+  color: #777;
+}
+
+#history > ul {
+  list-style: none; 
+  padding: 0;
+  margin: 0;
+  margin-top: 10px;
+  display: grid; 
+}
+
+.history-name {
+  color: royalblue;
+}
+
+.history-date {
+  font-size: 0.8em;
+}
+
+.history-item {
+  background-color: white; 
+  padding: 5px;
+  user-select: none;
+}
+
+.history-item:hover {
+  background-color: #eee;
+}
+
+.history-item:active {
+  background-color: #ddd;
+}
+
+#cover {
+  background-color: rgba(0, 0, 0, 0.219); 
+  position: fixed;
+  left: 0; 
+  top: 0;
+  width: 100vw; 
+  height: 100vh;
+}
