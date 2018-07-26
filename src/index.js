@@ -60,7 +60,7 @@ class App extends React.Component {
     }
     handleDownload = e => {
         try {
-            var data = JSON.stringify(JSON.parse(this.state.gameFile), undefined, 2)
+            var data = JSON.stringify(JSON.parse(this.state.gameFile))
             var encrypted = Encode(data)
             DownloadData(encrypted, "encoded.dat")
         } catch (err){
