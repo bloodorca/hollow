@@ -33,7 +33,7 @@ class App extends React.Component {
             reader.addEventListener("load", () => {
                 var result = reader.result 
                 try {
-                    let decrypted = Decode(new Uint8Array(result))
+                    let decrypted = new Uint8Array(result)
                     var jsonString = JSON.stringify(JSON.parse(decrypted), undefined, 2)
                     const hash = Hash(jsonString)
                     history.removeFromHistory(hash)
@@ -42,6 +42,7 @@ class App extends React.Component {
                     this.setGameFile(jsonString, file.name)
                 } catch (err){
                     window.alert("The file could not decrypted.")
+                    console.warn(err);
                 } 
                 this.fileInputRef.current.value = null
             })
