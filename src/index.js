@@ -32,7 +32,7 @@ class App extends React.Component {
             let reader = new FileReader()
 			
 			// Difference between Switch and other platforms is lack of any encoding, it's just JSON.
-			if (document.getElementById("switch-save").checked){
+			if (this.state.switchMode){
                 reader.readAsText(file)
             } else {
                 reader.readAsArrayBuffer(file)
@@ -98,8 +98,8 @@ class App extends React.Component {
     render(){
         return <div id="wrapper">
             {this.state.dragging && <div id="cover"></div>}
-            <p id="description">This online tool allows you to modify a Hollow Knight save file. You can also use this to convert your PC save to and from the Nintendo Switch.</p>
-            <p id="source">View the source code in the <a href="https://github.com/bloodorca/hollow">github repo</a>.</p>
+            <p id="description">This online tool allows you to modify a Hollow Knight save file. You can also use this to convert your PC save to and from a Switch save.</p>
+            <p id="source">You can view the source code in the <a href="https://github.com/bloodorca/hollow">github repo</a>.</p>
 			<ul id="instructions">
                 <li>Make a backup of your original file.</li>
                 <li>Select or drag in the source save file you want to modify.</li>
