@@ -20,7 +20,8 @@ class App extends React.Component {
         gameFile: "", 
         gameFileOriginal: "",
         editing: false,
-        dragging: false
+        dragging: false,
+        switchMode: false 
     }
     handleFileClick = () => {
         this.fileInputRef.current.click()
@@ -31,17 +32,19 @@ class App extends React.Component {
             let reader = new FileReader()
 			
 			// Difference between Switch and other platforms is lack of any encoding, it's just JSON.
-			if (document.getElementById("switch-save").checked) reader.readAsText(file)
-			else reader.readAsArrayBuffer(file)
+			if (document.getElementById("switch-save").checked){
+                reader.readAsText(file)
+            } else {
+                reader.readAsArrayBuffer(file)
+            }
 		
             reader.addEventListener("load", () => {
                 var result = reader.result
                 try {
 					let decrypted = ""
-					if (document.getElementById("switch-save").checked) {
+					if (this.state.switchMode) {
 						decrypted = result
-					}
-					else {
+					} else {
 						decrypted = Decode(new Uint8Array(result))
 					}
 					var jsonString = JSON.stringify(JSON.parse(decrypted), undefined, 2)
@@ -51,7 +54,7 @@ class App extends React.Component {
                     history.syncToLocalStorage()
                     this.setGameFile(jsonString, file.name)
                 } catch (err){
-                    //window.alert("The file could not decrypted.")
+                    window.alert("The file could not decrypted.")
                     console.warn(err)
                 } 
                 this.fileInputRef.current.value = null
@@ -69,13 +72,10 @@ class App extends React.Component {
 	handleDownloadAsSwitchSave = e => {
 		try {
             var data = JSON.stringify(JSON.parse(this.state.gameFile))
-            DownloadData(data, "encoded.dat")
+            DownloadData(data, "plain.dat")
         } catch (err){
             window.alert("Could not parse valid JSON. Reset or fix.")
         }
-    }
-    handleDownloadAsJSON = e => {
-        DownloadData(this.state.gameFile, "decoded.json")
     }
     handleDownload = e => {
         try {
@@ -98,18 +98,21 @@ class App extends React.Component {
     render(){
         return <div id="wrapper">
             {this.state.dragging && <div id="cover"></div>}
-            <p id="description">This online utility allows you to modify a Hollow Knight save file. View the source code in the <a href="https://github.com/bloodorca/hollow">github repo</a>. You can also use this to convert your PC save to and from the Nintendo Switch.</p>
+            <p id="description">This online tool allows you to modify a Hollow Knight save file. You can also use this to convert your PC save to and from the Nintendo Switch.</p>
+            <p id="source">View the source code in the <a href="https://github.com/bloodorca/hollow">github repo</a>.</p>
 			<ul id="instructions">
                 <li>Make a backup of your original file.</li>
                 <li>Select or drag in the source save file you want to modify.</li>
                 <li>Modify your save file. Ctrl-F / Cmd-F is your best friend.</li>
                 <li>Download your new modifed save file.</li>
             </ul>
-			<span>
-				<input type="checkbox" id="switch-save"/>
-				<label htmlFor="switch-save">Nintendo Switch Mode</label>
-			</span>
-			<button id="file-button" onClick={this.handleFileClick}>Select File</button>
+			<div>
+                <button id="file-button" onClick={this.handleFileClick}>Select File</button>
+                <span>
+                    <input checked={this.state.switchMode} onClick={e => this.setState({switchMode: !this.state.switchMode})} type="checkbox" id="switch-save"/>
+                    <label style={{color: this.state.switchMode ? "inherit" : "#777"}} htmlFor="switch-save">Nintendo Switch Mode</label>
+                </span>
+            </div>
             <input onChange={e => { this.handleFileChange(this.fileInputRef.current.files) }} id="file-input"  ref={this.fileInputRef} type="file"/>
             {this.state.editing && (
                 <div id="editor-wrapper">
@@ -117,9 +120,8 @@ class App extends React.Component {
                     <textarea id="editor" onChange={this.handleEditorChange} value={this.state.gameFile} spellCheck={false}></textarea>
                     <div id="editor-buttons">
                         <button onClick={this.handleReset}>reset</button>
-                        <button onClick={this.handleDownloadAsJSON}>download as json</button>
-						<button onClick={this.handleDownloadAsSwitchSave}>download as Nintendo Switch save file</button>
-                        <button onClick={this.handleDownload}>download as normal save file</button>
+                        <button onClick={this.handleDownloadAsSwitchSave}>download plain text (Switch)</button>
+                        <button onClick={this.handleDownload}>download encrypted (PC)</button>
                     </div>
                 </div>
             )}

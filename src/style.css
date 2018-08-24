@@ -23,6 +23,10 @@ button:focus {
   outline: solid 1px royalblue;
 }
 
+label {
+  user-select: none;
+}
+
 textarea {
   border: 1px solid #888;
   border-radius: 5px;
@@ -58,11 +62,20 @@ body {
 }
 
 #instructions {
-  color: #777;
+  color: #444;
   margin-top: 5px;
   margin-bottom: 25px;
   font-size: 0.95em;
   list-style-type: square; 
+}
+
+#source {
+  font-size: smaller;
+  color: #666;
+}
+
+#file-button {
+  margin-right: 20px;
 }
 
 #file-input {
@@ -92,11 +105,16 @@ body {
   margin-top: 5px;
   display: grid; 
   justify-items: left; 
-  grid-template-columns: auto auto 1fr auto;
+  grid-template-columns: auto 1fr auto auto;
   grid-template-areas: "a b c d"; 
   grid-column-gap: 10px;
+  font-size: 0.95em;
 }
 
+#editor-buttons > button:nth-child(0n+2){
+  justify-self: right;
+  grid-area: c;
+}
 
 #editor-buttons > button:nth-child(0n+3){
   justify-self: right;
