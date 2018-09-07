@@ -27,39 +27,40 @@ class App extends React.Component {
         this.fileInputRef.current.click()
     }
     handleFileChange = files => {
-        if (files.length > 0){
-            let file = files[0]
-            let reader = new FileReader()
-			
-			// Difference between Switch and other platforms is lack of any encoding, it's just JSON.
-			if (this.state.switchMode){
-                reader.readAsText(file)
-            } else {
-                reader.readAsArrayBuffer(file)
-            }
+		if (files.length == 0){
+			return 
+		}
 		
-            reader.addEventListener("load", () => {
-                var result = reader.result
-                try {
-					let decrypted = ""
-					if (this.state.switchMode) {
-						decrypted = result
-					} else {
-						decrypted = Decode(new Uint8Array(result))
-					}
-					var jsonString = JSON.stringify(JSON.parse(decrypted), undefined, 2)
-                    const hash = Hash(jsonString)
-                    history.removeFromHistory(hash)
-                    history.addToHistory(jsonString, file.name, hash)
-                    history.syncToLocalStorage()
-                    this.setGameFile(jsonString, file.name)
-                } catch (err){
-                    window.alert("The file could not decrypted.")
-                    console.warn(err)
-                } 
-                this.fileInputRef.current.value = null
-            })
-        }
+		let file = files[0]
+		let reader = new FileReader()
+
+		if (this.state.switchMode){
+			reader.readAsText(file)
+		} else {
+			reader.readAsArrayBuffer(file)
+		}
+
+		reader.addEventListener("load", () => {
+			var result = reader.result
+			try {
+				let decrypted = ""
+				if (this.state.switchMode) {
+					decrypted = result
+				} else {
+					decrypted = Decode(new Uint8Array(result))
+				}
+				var jsonString = JSON.stringify(JSON.parse(decrypted), undefined, 2)
+				const hash = Hash(jsonString)
+				history.removeFromHistory(hash)
+				history.addToHistory(jsonString, file.name, hash)
+				history.syncToLocalStorage()
+				this.setGameFile(jsonString, file.name)
+			} catch (err){
+				window.alert("The file could not decrypted.")
+				console.warn(err)
+			} 
+			this.fileInputRef.current.value = null
+		})
     }
     handleEditorChange = e => {
         this.setState({gameFile: e.target.value})
