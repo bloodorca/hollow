@@ -2,7 +2,7 @@
 ## https://bloodorca.github.io/hollow/
 Online save file editor. 
 
-Some of the code behind decryption/encryption was repurposed from this [guy](https://github.com/KayDeeTee/Hollow-Knight-SaveManager).  
+The steps behind decryption and encryption were taken from [@KayDeeTee](https://github.com/KayDeeTee)'s [Hollow Knight Save Manager](https://github.com/KayDeeTee/Hollow-Knight-SaveManager) project. 
 
 
 ### Instructions 
