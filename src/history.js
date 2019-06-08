@@ -20,7 +20,7 @@ export default class History {
       localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify({history: this.history}))
     } catch (err){
       var departed = this.history[this.history.length-1]
-      console.error(`localStorage quota reached! Removing "${departed.fileName}", the least recent file.`)
+      console.error(`localStorage quota reached! Removing "${departed.hash}", the least recent file.`)
       this.removeLeastRecent()
       this.syncToLocalStorage()
     }

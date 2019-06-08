@@ -82,7 +82,7 @@ class App extends React.Component {
         try {
             var data = JSON.stringify(JSON.parse(this.state.gameFile))
             var encrypted = Encode(data)
-            DownloadData(encrypted, "encoded.dat")
+            DownloadData(encrypted, "user1.dat")
         } catch (err){
             window.alert("Could not parse valid JSON. Reset or fix.")
         }
@@ -161,7 +161,7 @@ class HistoryComponent extends React.Component {
                             }} 
                             className="history-item"
                         >
-                            <div className="history-name">{item.fileName}</div>
+                            <div className="history-name">HASH {item.hash}</div>
                             <div className="history-date">{HumanTime(item.date)}</div>
                         </li>
                     ))}
